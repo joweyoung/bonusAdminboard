@@ -1,2 +1,4 @@
 # bonusAdminboard
 红包后台管理系统
+该框架于17年4月份应公司需求，使用jquery进行编写，主要结合Bootstrap，iconfont等编写
+后融合到编辑器之中，现已不进行更新
