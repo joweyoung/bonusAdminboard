@@ -1,0 +1,59 @@
+package com.weiwuu.krpano.meta;
+syntax = "proto3";
+
+
+option java_multiple_files = true;
+option java_generate_equals_and_hash = true;
+
+option java_package = "com.weiwuu.krpano.meta";
+option java_outer_classname = "FeedbackProto";
+
+option csharp_namespace = "Weiwuu.Krpano.Meta.KnownTypes";
+
+option objc_class_prefix = "WKM";
+
+// 反馈定义
+message Feedback {
+    // 逻辑型
+    bool boolean_value = 1;
+
+    // 整数型
+    int64 long_value = 2;
+
+    // 浮点型
+    double double_value = 3;
+
+    // 字符串
+    string string_value = 4;
+}
+
+// 反馈清单
+message FeedbackList {
+    repeated Feedback feedback = 1;
+}
+
+// 1. 首先, 指定语法: syntax = "proto3";
+// 2. Messages 的命名使用驼峰命名法, 字段的命名用【小写字母 + 下划线】
+// 3. 经常被使用的字段, 考虑放置在 1-15 这个范围内, 代码时有优化
+// 4. repeated 通常会被解析为一个 List, 表达可以重复出现 0 ~ N
+// 5. reserved 通常放置在将被废弃的字段前, 以提供向后兼容性
+// 6. 数据类型: double, float, bool, string, bytes
+// 7. sint32, sint64 比原始的 int32, int64 有优化, 允许负值
+// 8. uint32, uint64 使用在正整数的情况下
+// 9. fixed32, fixed64 使用在数值总是很大的情况下
+
+// string 的默认值是 Empty
+// bool   的默认值是 false
+// bytes  的默认值是 Empty Bytes
+// 数值型  的默认值是 0
+// 枚举型  的默认值是第一个元素, 其索引必须是 0
+// repeated 类型的默认值是一个 Empty List
+
+// 如果不确定使用哪个数据类型, 或者你不想定义它, 使用 Any
+// 1. 引入 import "google/protobuf/any.proto";
+// 2. 定义 google.protobuf.Any details = 2;
+// 3. Any 在代码时, 对应的数据类型必须可序列化, 然后被存储为 bytes
+
+// 如果需要使用更便捷的 K/V 对, 可以考虑使用 Map, 用法如下:
+//     map<key_type, value_type> map_field = N;
+// 注意, 在实际代码时, 将按照 key_value 进行排序

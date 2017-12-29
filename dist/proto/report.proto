@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package com.weiwuu.bonus.meta;
+
+import "client.proto";
+import "project.proto";
+import "metrics.proto";
+import "journal.proto";
+import "visit.proto";
+
+option java_multiple_files = true;
+option java_generate_equals_and_hash = true;
+
+option java_package = "com.weiwuu.bonus.meta";
+option java_outer_classname = "ReportProto";
+
+option csharp_namespace = "Weiwuu.Bonus.Meta.KnownTypes";
+
+option objc_class_prefix = "WBM";
+
+// 报告
+message Report {
+    // ID
+    uint64 id = 1;
+
+    // 委托人
+    uint64 client_id = 2;
+    Client client = 3;
+
+    // 项目
+    uint64 project_id = 4;
+    Project project = 5;
+
+    // 度量
+    uint64 metrics_id = 6;
+    Metrics metrics = 7;
+
+    // 日志列表: 最近的 100 条
+    repeated Journal journal = 8;
+
+    // 访问列表: 最近的 100 条
+    repeated Visit visit = 9;
+
+    // 创建时间: 用长整数表达
+    uint64 created_at = 15;
+}
+
+// 报告清单
+message ReportList {
+    repeated Report report = 1;
+}

@@ -1,0 +1,575 @@
+
+//样式重置
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "微软雅黑", Arial;
+  font-weight: normal;
+  outline: none;
+}
+
+//定义
+@height: 70px; //头部高度
+@g_width:1200px;//全局宽度
+@cli_width:@g_width - 100px; //内容区域高度
+@label_width:100px;//标签宽度
+
+//省略的class名
+.ellipsis{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+
+//对部分标签的样式定义
+a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+}
+
+ul, ol, li {
+  list-style: none;
+}
+
+.form-control{
+  color: #000;
+}
+label{
+  color: #666;
+  width: @label_width;
+}
+
+body {
+  //头部样式
+  margin: 0 auto;
+  width: @g_width+30px;
+  height: auto;
+  .header {
+    margin: 0 auto;
+    width: 100%;
+    height: @height;
+    background-color: #f3f3f3;
+    h3 {
+      margin: 0 auto;
+      float: left;
+      width: 260 px- @height;
+      height: @height;
+      line-height: @height;
+    }
+    img {
+      width: @height;
+      height: @height;
+      float: left;
+    }
+    p {
+      width: auto;
+      height: @height;
+      display: inline-block;
+      float: right;
+      margin: 0;
+      a {
+        width: auto;
+        height: @height;
+        text-align: center;
+        line-height: @height;
+        font-size: 16px;
+        margin-right: 30px;
+        color: #c90000;
+      }
+    }
+    //登录成功
+    #loginSuc {
+      display: none;
+      width: auto;
+      height: @height;
+      line-height: @height;
+      float: right;
+      margin-right: 30px;
+      img {
+        width: @height;
+        height: @height;
+        float: left;
+      }
+      span {
+        display: inline-block;
+        width: auto;
+        height: @height;
+        line-height: @height;
+      }
+      #logOut {
+        margin: 0 20px;
+        color: #c90000;
+      }
+    }
+
+  }
+  //主体样式
+  .main {
+    margin: 0 auto;
+    width: 100%;
+    height: 700px;
+    clear: both;
+    //导航部分
+    nav {
+      width: 100px;
+      height: auto;
+      float: left;
+      li {
+        width: 100px;
+        height: 70px;
+        line-height: 70px;
+        text-align: center;
+        background-color: #202020;
+        border-top: 1px solid #2e2e2e;
+        cursor: pointer;
+        a {
+          color: #fff;
+        }
+      }
+      .red {
+        background-color: #c90000;
+      }
+    }
+    //内容改变区域
+    #changeContent {
+      width: @cli_width - 10 px;
+      margin-left: 10px;
+      float: left;
+      outline: none;
+
+      //委托人内容区域
+      .cli_content {
+        h3 {
+          width: @cli_width - 10px;
+          height: auto;
+          text-align: center;
+        }
+        #cli_add {
+          float: right;
+        }
+        #cli_content {
+          display: inline-block;
+          width: 160px;
+          height: 30px;
+          border-radius: 3px;
+        }
+        #cli_table {
+          table-layout: fixed;
+          margin-top: 10px;
+          width: @cli_width - 10px;
+          font-size: 14px;
+          .cli_op{
+            width:195px;
+          }
+          .cli_con_mail{
+            width:180px;
+          }
+          th {
+            height:50px;
+            line-height:50px;
+            background-color: #B6E5F3;
+            padding: 0 3px;
+            text-align: center;
+          }
+          tr {
+            td {
+              word-wrap: break-word;
+              overflow: hidden;
+              text-align: center;
+              vertical-align:middle;
+            }
+          }
+        }
+      }
+
+      //项目内容区域
+      .pro_content {
+        h3 {
+          width: @cli_width - 10px;
+          height: auto;
+          text-align: center;
+          span{
+            display: inline-block;
+            font-size:24px;
+          }
+        }
+        #pro_add {
+          float: right;
+        }
+        #pro_content {
+          display: inline-block;
+          width: 160px;
+          height: 30px;
+          border-radius: 3px;
+        }
+        #pro_table {
+          table-layout: fixed;
+          margin-top: 10px;
+          width: @cli_width - 10px;
+          font-size: 14px;
+          .pro_op{
+            width:310px;
+            input{
+
+            }
+          }
+          th {
+            height:50px;
+            line-height:50px;
+            background-color: #B6E5F3;
+            padding: 0 3px;
+            text-align: center;
+          }
+          tr {
+            td {
+              word-wrap: break-word;
+              overflow: hidden;
+              text-align: center;
+              vertical-align:middle;
+            }
+          }
+        }
+      }
+    //  红包内容区域
+      .bon_content {
+        h3 {
+          width: @cli_width - 10px;
+          height: auto;
+          text-align: center;
+          span{
+            display: inline-block;
+            font-size:24px;
+          }
+        }
+        #bon_add {
+          float: right;
+        }
+        #bon_content {
+          display: inline-block;
+          width: 160px;
+          height: 30px;
+          border-radius: 3px;
+        }
+        #bon_table {
+          table-layout: fixed;
+          margin-top: 10px;
+          width: @cli_width - 10px;
+          font-size: 14px;
+          .bon_wx_avatar{
+            width:70px;
+          }
+          .bon_op{
+            width:130px;
+          }
+          .bon_from_city{
+            width:200px;
+          }
+          th {
+            height:50px;
+            line-height:50px;
+            background-color: #B6E5F3;
+            padding: 0 3px;
+            text-align: center;
+          }
+          tr {
+            td {
+              word-wrap: break-word;
+              overflow: hidden;
+              text-align: center;
+              vertical-align:middle;
+            }
+          }
+        }
+      }
+
+    //  日志区域部分
+      .jou_content {
+        h3 {
+          width: @cli_width - 10px;
+          height: auto;
+          text-align: center;
+          span{
+            display: inline-block;
+            font-size:24px;
+          }
+        }
+        #jou_add {
+          float: right;
+        }
+        #jou_content {
+          display: inline-block;
+          width: 160px;
+          height: 30px;
+          border-radius: 3px;
+        }
+        #jou_table {
+          table-layout: fixed;
+          margin-top: 10px;
+          width: @cli_width - 10px;
+          font-size: 14px;
+          .jou_create_at{
+            width:160px;
+          }
+          .jou_description{
+            width:300px;
+          }
+          .jou_wx_avatar{
+            width:70px;
+          }
+          .jou_op{
+            width:130px;
+          }
+          th {
+            padding: 0 3px;
+            text-align: center;
+          }
+          tr {
+            td {
+              word-wrap: break-word;
+              overflow: hidden;
+              text-align: center;
+              vertical-align:middle;
+            }
+          }
+        }
+      }
+
+    //报告内容区域
+      .rep_content{
+        ul{
+          width:@cli_width - 10px;
+          height:30px;
+          line-height: 30px;
+          li{
+            float:left;
+            margin:0 15px;
+          }
+        }
+        h3{
+          width: @cli_width - 10px;
+          height: auto;
+          text-align: center;
+          span{
+            display: inline-block;
+            font-size:24px;
+          }
+        }
+        h4{
+          width: @cli_width - 10px;
+          height: auto;
+          text-align: center;
+        }
+        //  报告中的度量
+        #metrics{
+          width:@cli_width - 10px;
+          height:100px;
+          li{
+            margin:0 25px 0 5px;
+            height:20px;
+            line-height:20px;
+            font-size:12px;
+            color:#666;
+            float:left;
+            span{
+              display: inline-block;
+              padding-left:5px;
+              color:#111;
+            }
+          }
+        }
+        //  报告中的日志
+        #rep_jou{
+          width:@cli_width - 10px;
+          #rep_jou_table {
+            table-layout: fixed;
+            margin-top: 10px;
+            width: @cli_width - 10px;
+            font-size: 14px;
+            .rep_jou_create_at{
+              width:160px;
+            }
+            .rep_jou_description{
+              width:300px;
+            }
+            .rep_jou_wx_avatar{
+              width:70px;
+            }
+            .rep_jou_op{
+              width:130px;
+            }
+            th {
+              height:50px;
+              line-height:50px;
+              background-color: #B6E5F3;
+              padding: 0 3px;
+              text-align: center;
+            }
+            tr {
+              td {
+                word-wrap: break-word;
+                overflow: hidden;
+                text-align: center;
+                vertical-align:middle;
+              }
+            }
+          }
+        }
+      //  报告中的访问
+        #rep_vis{
+          width:@cli_width - 10px;
+          #rep_vis_table {
+            table-layout: fixed;
+            margin-top: 10px;
+            width: @cli_width - 10px;
+            font-size: 14px;
+            th {
+              height:50px;
+              line-height:50px;
+              background-color: #B6E5F3;
+              padding: 0 3px;
+              text-align: center;
+            }
+            tr {
+              td {
+                word-wrap: break-word;
+                overflow: hidden;
+                text-align: center;
+                vertical-align:middle;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    //分页区域
+    .pagination{
+      width:550px;
+      height:30px;
+      float:right;
+      span{
+        display: inline-block;
+        margin:0 3px;
+        line-height:30px;
+        text-align:center;
+      }
+      a{
+        display: inline-block;
+        margin:0 3px;
+        line-height:30px;
+        text-align:center;
+        border:1px solid #ccc;
+        border-radius: 3px;
+      }
+      .prev,.next{
+        border:1px solid #dddddd;
+        padding:2px 12px;
+        border-radius:5px;
+      }
+    }
+    //  拦截区域部分
+    .blo_content {
+      h3 {
+        width: @cli_width - 10px;
+        height: auto;
+        text-align: center;
+      }
+      #blo_add{
+        float: right;
+      }
+      #blo_content {
+        display: inline-block;
+        width: 160px;
+        height: 30px;
+        border-radius: 3px;
+      }
+      #blo_table {
+        table-layout: fixed;
+        margin-top: 10px;
+        width: @cli_width - 10px;
+        font-size: 14px;
+        .blo_op{
+          width:130px;
+        }
+        th {
+          height:50px;
+          line-height:50px;
+          background-color: #B6E5F3;
+          padding: 0 3px;
+          text-align: center;
+        }
+        tr {
+          td {
+            word-wrap: break-word;
+            overflow: hidden;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+  //模态框的样式
+  #myModal_detail_pro,#myModal_pro,#myModal_detail_bon{
+    .modal-dialog{
+      width:1000px;
+      .modal-content{
+        width:840px;
+        margin:0 auto;
+        .form-group{
+          display: inline-block;
+        }
+      }
+    }
+  }
+  .modal-content{
+    strong{
+      display: block;
+      width: 365px;
+      margin-left:20px;
+
+      i{
+        display: inline-block;
+        color:#ff0000;
+        margin-left:3px;
+      }
+    }
+    .form-group{
+      display: block;
+      width:365px;
+      margin-left:20px;
+      margin-bottom:10px;
+      height:50px;
+      p{
+        display: inline-block;
+      }
+      label{
+        margin-right:5px;
+        i{
+          display: inline-block;
+          color:#ff0000;
+          margin-left:3px;
+        }
+      }
+      input{
+        width: 250px;
+        height:30px;
+      }
+      textarea{
+        width:250px;
+      }
+      select{
+        width:250px;
+      }
+      .form_datetime{
+        background-color:#fff;
+      }
+      span{
+        display: none;
+        height: 20px;
+        font-size:12px;
+        margin-left:115px;
+        color:#ff0000;
+      }
+    }
+  }
+}

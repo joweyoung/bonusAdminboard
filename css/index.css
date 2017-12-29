@@ -1,0 +1,516 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "微软雅黑", Arial;
+  font-weight: normal;
+  outline: none;
+}
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+a {
+  display: inline-block;
+  text-decoration: none;
+}
+img {
+  display: block;
+}
+ul,
+ol,
+li {
+  list-style: none;
+}
+.form-control {
+  color: #000;
+}
+label {
+  color: #666;
+  width: 100px;
+}
+body {
+  margin: 0 auto;
+  width: 1230px;
+  height: auto;
+}
+body .header {
+  margin: 0 auto;
+  width: 100%;
+  height: 70px;
+  background-color: #f3f3f3;
+}
+body .header h3 {
+  margin: 0 auto;
+  float: left;
+  width: 260 px- 70px;
+  height: 70px;
+  line-height: 70px;
+}
+body .header img {
+  width: 70px;
+  height: 70px;
+  float: left;
+}
+body .header p {
+  width: auto;
+  height: 70px;
+  display: inline-block;
+  float: right;
+  margin: 0;
+}
+body .header p a {
+  width: auto;
+  height: 70px;
+  text-align: center;
+  line-height: 70px;
+  font-size: 16px;
+  margin-right: 30px;
+  color: #c90000;
+}
+body .header #loginSuc {
+  display: none;
+  width: auto;
+  height: 70px;
+  line-height: 70px;
+  float: right;
+  margin-right: 30px;
+}
+body .header #loginSuc img {
+  width: 70px;
+  height: 70px;
+  float: left;
+}
+body .header #loginSuc span {
+  display: inline-block;
+  width: auto;
+  height: 70px;
+  line-height: 70px;
+}
+body .header #loginSuc #logOut {
+  margin: 0 20px;
+  color: #c90000;
+}
+body .main {
+  margin: 0 auto;
+  width: 100%;
+  height: 700px;
+  clear: both;
+}
+body .main nav {
+  width: 100px;
+  height: auto;
+  float: left;
+}
+body .main nav li {
+  width: 100px;
+  height: 70px;
+  line-height: 70px;
+  text-align: center;
+  background-color: #202020;
+  border-top: 1px solid #2e2e2e;
+  cursor: pointer;
+}
+body .main nav li a {
+  color: #fff;
+}
+body .main nav .red {
+  background-color: #c90000;
+}
+body .main #changeContent {
+  width: 1090px px;
+  margin-left: 10px;
+  float: left;
+  outline: none;
+}
+body .main #changeContent .cli_content h3 {
+  width: 1090px;
+  height: auto;
+  text-align: center;
+}
+body .main #changeContent .cli_content #cli_add {
+  float: right;
+}
+body .main #changeContent .cli_content #cli_content {
+  display: inline-block;
+  width: 160px;
+  height: 30px;
+  border-radius: 3px;
+}
+body .main #changeContent .cli_content #cli_table {
+  table-layout: fixed;
+  margin-top: 10px;
+  width: 1090px;
+  font-size: 14px;
+}
+body .main #changeContent .cli_content #cli_table .cli_op {
+  width: 195px;
+}
+body .main #changeContent .cli_content #cli_table .cli_con_mail {
+  width: 180px;
+}
+body .main #changeContent .cli_content #cli_table th {
+  height: 50px;
+  line-height: 50px;
+  background-color: #B6E5F3;
+  padding: 0 3px;
+  text-align: center;
+}
+body .main #changeContent .cli_content #cli_table tr td {
+  word-wrap: break-word;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+body .main #changeContent .pro_content h3 {
+  width: 1090px;
+  height: auto;
+  text-align: center;
+}
+body .main #changeContent .pro_content h3 span {
+  display: inline-block;
+  font-size: 24px;
+}
+body .main #changeContent .pro_content #pro_add {
+  float: right;
+}
+body .main #changeContent .pro_content #pro_content {
+  display: inline-block;
+  width: 160px;
+  height: 30px;
+  border-radius: 3px;
+}
+body .main #changeContent .pro_content #pro_table {
+  table-layout: fixed;
+  margin-top: 10px;
+  width: 1090px;
+  font-size: 14px;
+}
+body .main #changeContent .pro_content #pro_table .pro_op {
+  width: 310px;
+}
+body .main #changeContent .pro_content #pro_table th {
+  height: 50px;
+  line-height: 50px;
+  background-color: #B6E5F3;
+  padding: 0 3px;
+  text-align: center;
+}
+body .main #changeContent .pro_content #pro_table tr td {
+  word-wrap: break-word;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+body .main #changeContent .bon_content h3 {
+  width: 1090px;
+  height: auto;
+  text-align: center;
+}
+body .main #changeContent .bon_content h3 span {
+  display: inline-block;
+  font-size: 24px;
+}
+body .main #changeContent .bon_content #bon_add {
+  float: right;
+}
+body .main #changeContent .bon_content #bon_content {
+  display: inline-block;
+  width: 160px;
+  height: 30px;
+  border-radius: 3px;
+}
+body .main #changeContent .bon_content #bon_table {
+  table-layout: fixed;
+  margin-top: 10px;
+  width: 1090px;
+  font-size: 14px;
+}
+body .main #changeContent .bon_content #bon_table .bon_wx_avatar {
+  width: 70px;
+}
+body .main #changeContent .bon_content #bon_table .bon_op {
+  width: 130px;
+}
+body .main #changeContent .bon_content #bon_table .bon_from_city {
+  width: 200px;
+}
+body .main #changeContent .bon_content #bon_table th {
+  height: 50px;
+  line-height: 50px;
+  background-color: #B6E5F3;
+  padding: 0 3px;
+  text-align: center;
+}
+body .main #changeContent .bon_content #bon_table tr td {
+  word-wrap: break-word;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+body .main #changeContent .jou_content h3 {
+  width: 1090px;
+  height: auto;
+  text-align: center;
+}
+body .main #changeContent .jou_content h3 span {
+  display: inline-block;
+  font-size: 24px;
+}
+body .main #changeContent .jou_content #jou_add {
+  float: right;
+}
+body .main #changeContent .jou_content #jou_content {
+  display: inline-block;
+  width: 160px;
+  height: 30px;
+  border-radius: 3px;
+}
+body .main #changeContent .jou_content #jou_table {
+  table-layout: fixed;
+  margin-top: 10px;
+  width: 1090px;
+  font-size: 14px;
+}
+body .main #changeContent .jou_content #jou_table .jou_create_at {
+  width: 160px;
+}
+body .main #changeContent .jou_content #jou_table .jou_description {
+  width: 300px;
+}
+body .main #changeContent .jou_content #jou_table .jou_wx_avatar {
+  width: 70px;
+}
+body .main #changeContent .jou_content #jou_table .jou_op {
+  width: 130px;
+}
+body .main #changeContent .jou_content #jou_table th {
+  padding: 0 3px;
+  text-align: center;
+}
+body .main #changeContent .jou_content #jou_table tr td {
+  word-wrap: break-word;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+body .main #changeContent .rep_content ul {
+  width: 1090px;
+  height: 30px;
+  line-height: 30px;
+}
+body .main #changeContent .rep_content ul li {
+  float: left;
+  margin: 0 15px;
+}
+body .main #changeContent .rep_content h3 {
+  width: 1090px;
+  height: auto;
+  text-align: center;
+}
+body .main #changeContent .rep_content h3 span {
+  display: inline-block;
+  font-size: 24px;
+}
+body .main #changeContent .rep_content h4 {
+  width: 1090px;
+  height: auto;
+  text-align: center;
+}
+body .main #changeContent .rep_content #metrics {
+  width: 1090px;
+  height: 100px;
+}
+body .main #changeContent .rep_content #metrics li {
+  margin: 0 25px 0 5px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+  color: #666;
+  float: left;
+}
+body .main #changeContent .rep_content #metrics li span {
+  display: inline-block;
+  padding-left: 5px;
+  color: #111;
+}
+body .main #changeContent .rep_content #rep_jou {
+  width: 1090px;
+}
+body .main #changeContent .rep_content #rep_jou #rep_jou_table {
+  table-layout: fixed;
+  margin-top: 10px;
+  width: 1090px;
+  font-size: 14px;
+}
+body .main #changeContent .rep_content #rep_jou #rep_jou_table .rep_jou_create_at {
+  width: 160px;
+}
+body .main #changeContent .rep_content #rep_jou #rep_jou_table .rep_jou_description {
+  width: 300px;
+}
+body .main #changeContent .rep_content #rep_jou #rep_jou_table .rep_jou_wx_avatar {
+  width: 70px;
+}
+body .main #changeContent .rep_content #rep_jou #rep_jou_table .rep_jou_op {
+  width: 130px;
+}
+body .main #changeContent .rep_content #rep_jou #rep_jou_table th {
+  height: 50px;
+  line-height: 50px;
+  background-color: #B6E5F3;
+  padding: 0 3px;
+  text-align: center;
+}
+body .main #changeContent .rep_content #rep_jou #rep_jou_table tr td {
+  word-wrap: break-word;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+body .main #changeContent .rep_content #rep_vis {
+  width: 1090px;
+}
+body .main #changeContent .rep_content #rep_vis #rep_vis_table {
+  table-layout: fixed;
+  margin-top: 10px;
+  width: 1090px;
+  font-size: 14px;
+}
+body .main #changeContent .rep_content #rep_vis #rep_vis_table th {
+  height: 50px;
+  line-height: 50px;
+  background-color: #B6E5F3;
+  padding: 0 3px;
+  text-align: center;
+}
+body .main #changeContent .rep_content #rep_vis #rep_vis_table tr td {
+  word-wrap: break-word;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+body .main .pagination {
+  width: 550px;
+  height: 30px;
+  float: right;
+}
+body .main .pagination span {
+  display: inline-block;
+  margin: 0 3px;
+  line-height: 30px;
+  text-align: center;
+}
+body .main .pagination a {
+  display: inline-block;
+  margin: 0 3px;
+  line-height: 30px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+body .main .pagination .prev,
+body .main .pagination .next {
+  border: 1px solid #dddddd;
+  padding: 2px 12px;
+  border-radius: 5px;
+}
+body .main .blo_content h3 {
+  width: 1090px;
+  height: auto;
+  text-align: center;
+}
+body .main .blo_content #blo_add {
+  float: right;
+}
+body .main .blo_content #blo_content {
+  display: inline-block;
+  width: 160px;
+  height: 30px;
+  border-radius: 3px;
+}
+body .main .blo_content #blo_table {
+  table-layout: fixed;
+  margin-top: 10px;
+  width: 1090px;
+  font-size: 14px;
+}
+body .main .blo_content #blo_table .blo_op {
+  width: 130px;
+}
+body .main .blo_content #blo_table th {
+  height: 50px;
+  line-height: 50px;
+  background-color: #B6E5F3;
+  padding: 0 3px;
+  text-align: center;
+}
+body .main .blo_content #blo_table tr td {
+  word-wrap: break-word;
+  overflow: hidden;
+  text-align: center;
+}
+body #myModal_detail_pro .modal-dialog,
+body #myModal_pro .modal-dialog,
+body #myModal_detail_bon .modal-dialog {
+  width: 1000px;
+}
+body #myModal_detail_pro .modal-dialog .modal-content,
+body #myModal_pro .modal-dialog .modal-content,
+body #myModal_detail_bon .modal-dialog .modal-content {
+  width: 840px;
+  margin: 0 auto;
+}
+body #myModal_detail_pro .modal-dialog .modal-content .form-group,
+body #myModal_pro .modal-dialog .modal-content .form-group,
+body #myModal_detail_bon .modal-dialog .modal-content .form-group {
+  display: inline-block;
+}
+body .modal-content strong {
+  display: block;
+  width: 365px;
+  margin-left: 20px;
+}
+body .modal-content strong i {
+  display: inline-block;
+  color: #ff0000;
+  margin-left: 3px;
+}
+body .modal-content .form-group {
+  display: block;
+  width: 365px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  height: 50px;
+}
+body .modal-content .form-group p {
+  display: inline-block;
+}
+body .modal-content .form-group label {
+  margin-right: 5px;
+}
+body .modal-content .form-group label i {
+  display: inline-block;
+  color: #ff0000;
+  margin-left: 3px;
+}
+body .modal-content .form-group input {
+  width: 250px;
+  height: 30px;
+}
+body .modal-content .form-group textarea {
+  width: 250px;
+}
+body .modal-content .form-group select {
+  width: 250px;
+}
+body .modal-content .form-group .form_datetime {
+  background-color: #fff;
+}
+body .modal-content .form-group span {
+  display: none;
+  height: 20px;
+  font-size: 12px;
+  margin-left: 115px;
+  color: #ff0000;
+}

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package com.weiwuu.bonus.meta;
+
+
+option java_multiple_files = true;
+option java_generate_equals_and_hash = true;
+
+option java_package = "com.weiwuu.bonus.meta";
+option java_outer_classname = "SecureProto";
+
+option csharp_namespace = "Weiwuu.Bonus.Meta.KnownTypes";
+
+option objc_class_prefix = "WBM";
+
+// 安全
+message Secure {
+    // Client Key
+    string client_key = 1;
+
+    // Server Key
+    string server_key = 2;
+
+    // Secure Key
+    string secure_key = 3;
+
+    // User Agent
+    string user_agent = 4;
+
+    // 安全问题
+    string question_by = 5;
+
+    // 过期时间
+    uint64 expired_at = 6;
+}

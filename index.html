@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>红包后台管理</title>
+
+    <!--引入的css部分代码-->
+    <link rel="stylesheet" type="text/css" href="dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="dist/css/bootstrapValidator.min.css">
+    <link rel="stylesheet" type="text/css" href="dist/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="dist/css/pagination.css">
+    <link rel="stylesheet/less" type="text/css" href="css/index.less">
+
+
+    <!--引入的js部分代码-->
+    <script type="text/javascript">
+        if(sessionStorage.login != 1){
+            window.location.href = 'login.html';
+        }
+    </script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="dist/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="dist/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="dist/js/jquery.pagination.js"></script>
+    <script src="./dist/js/jquery.qrcode.min.js"></script>
+    <!--pb支持-->
+    <script type="text/javascript" src="dist/js/protobuf.min.js"></script>
+    <!--http请求-->
+    <script type="text/javascript" src="js/http.js"></script>
+    <!--主要js-->
+    <script src="js/index.js"></script>
+</head>
+
+<body>
+<!--头部-->
+<div class="header">
+    <!--该部分可以放置一个logo-->
+    <img src="img/logo.png" alt="logo">&nbsp;
+    <h3>红包后台管理系统</h3>
+    <!--该部分显示登陆成功之后的页面-->
+    <div id="loginSuc">
+        <img id="avatar" src="img/logo.png" alt="avatar">您好，<span id="user">某某某</span><a id="logOut">登出</a>
+    </div>
+</div>
+<!--页面主体-->
+<div class="main">
+    <!--侧边栏导航-->
+    <nav>
+        <ul id="nav_bar">
+            <li class="red" id="client">
+                <a href="#">委托人</a>
+            </li>
+            <li id="project" style="display:none">
+                <a href="#">项目</a>
+            </li>
+            <li id="bonus" style="display:none">
+                <a href="#">红包</a>
+            </li>
+            <li id="journal" style="display:none">
+                <a href="#">日志</a>
+            </li>
+            <li id="report" style="display:none">
+                <a href="#">报告</a>
+            </li>
+            <li id="block">
+                <a href="#">黑名单</a>
+            </li>
+        </ul>
+    </nav>
+    <!--内容改变部分-->
+    <div id="changeContent">
+        <!--委托人部分内容-->
+        <div class="cli_content content">
+            <h3>委托人列表</h3>
+            <input type="text" id="cli_content" class="form-control" placeholder="请输入查询内容">
+            <button type="button" id="cli_search" class="btn btn-info">查询</button>
+            <button type="button" id="cli_add" class="btn btn-info" data-toggle="modal" data-target="#myModal">新增
+            </button>
+
+            <!--表格布局-->
+            <table id="cli_table" class="table table-hover table-bordered">
+                <!--head部分-->
+                <thead>
+                <tr>
+                    <th class="cli_type">类型</th>
+                    <th class="cli_name">名称</th>
+                    <th class="cli_con_name">联系人姓名</th>
+                    <th class="cli_con_phone">联系人电话</th>
+                    <th class="cli_con_mail">联系人邮箱</th>
+                    <th class="cli_remain_reserve">储备金(元)</th>
+                    <th class="cli_total_expenses">总花费(元)</th>
+                    <th class="cli_bonus_count">发放量</th>
+                    <th class="cli_action_count">活动量</th>
+                    <th class="cli_enable_tr">是否有效</th>
+                    <th class="cli_op">操作</th>
+                </tr>
+                </thead>
+                <!--body内的信息显示-->
+                <tbody id="table_info_tby">
+
+                </tbody>
+            </table>
+            <div id="pagination_cli" class="pagination"></div>
+        </div>
+        <!--项目部分内容-->
+        <div class="pro_content content">
+            <h3><span class="pro_cli_name"></span>项目列表<span class="pro_cli_type"></span></h3>
+            <input type="text" id="pro_content" class="form-control" placeholder="请输入查询内容">
+            <button type="button" id="pro_search" class="btn btn-info">查询</button>
+            <button type="button" id="pro_add" class="btn btn-info" data-toggle="modal" data-target="#myModal_pro">新增
+            </button>
+
+            <!--表格布局-->
+            <table id="pro_table" class="table table-hover table-bordered">
+                <!--head部分-->
+                <thead>
+                <tr>
+                    <th class="pro_type">类型</th>
+                    <th class="pro_name">名称</th>
+                    <th class="pro_notes">说明</th>
+                    <th class="pro_caption">标题</th>
+                    <th class="pro_totalBonus">红包总量</th>
+                    <th class="pro_openedAt">开放时间</th>
+                    <th class="pro_closedAt">关闭时间</th>
+                    <th class="pro_enable">微信专享</th>
+                    <th class="pro_op">操作</th>
+                </tr>
+                </thead>
+                <!--body内的信息显示-->
+                <tbody id="pro_table_info_tby">
+
+                </tbody>
+            </table>
+            <div id="pagination_pro" class="pagination"></div>
+        </div>
+        <!--红包部分内容-->
+        <div class="bon_content content">
+            <h3><span class="bon_pro_name"></span>红包列表<span class="bon_pro_type"></span></h3>
+            <input type="text" id="bon_content" class="form-control" placeholder="请输入查询内容">
+            <button type="button" id="bon_search" class="btn btn-info">查询</button>
+
+            <!--表格布局-->
+            <table id="bon_table" class="table table-hover table-bordered">
+                <!--head部分-->
+                <thead>
+                <tr>
+                    <th class="bon_name">名称</th>
+                    <th class="bon_created_at">创建时间</th>
+                    <th class="bon_wx_name">微信用户名</th>
+                    <th class="bon_mobile">电话号码</th>
+                    <th class="bon_wx_avatar">用户头像</th>
+                    <th class="bon_cash">兑奖额(分)</th>
+                    <th class="bon_lucky_code ">兑奖码</th>
+                    <th class="bon_lottery_id">抽奖码</th>
+                    <th class="bon_from_city">城市</th>
+                    <th class="bon_op">详情</th>
+                </tr>
+                </thead>
+                <!--body内的信息显示-->
+                <tbody id="bon_table_info_tby">
+
+                </tr>
+                </tbody>
+            </table>
+            <div id="pagination_bon" class="pagination"></div>
+        </div>
+        <!--日志部分内容-->
+        <div class="jou_content content">
+            <h3><span class="bon_pro_name"></span>日志列表</h3>
+            <input type="text" id="jou_content" class="form-control" placeholder="请输入查询内容">
+            <button type="button" id="jou_search" class="btn btn-info">查询</button>
+
+            <!--表格布局-->
+            <table id="jou_table" class="table table-hover table-bordered">
+                <!--head部分-->
+                <thead>
+                <tr>
+                    <th class="jou_create_at">创建时间</th>
+                    <th class="jou_wx_name">微信昵称</th>
+                    <th class="jou_wx_avatar">微信头像</th>
+                    <th class="jou_action">活动</th>
+                    <th class="jou_description">描述</th>
+                    <th class="jou_op">详情</th>
+                </tr>
+                </thead>
+                <!--body内的信息显示-->
+                <tbody id="jou_table_info_tby">
+
+                </tbody>
+            </table>
+            <div id="pagination_jou" class="pagination"></div>
+        </div>
+        <!--拦截部分内容-->
+        <div class="blo_content content">
+            <h3>黑名单部分</h3>
+            <input type="text" id="blo_content" class="form-control" placeholder="请输入查询内容">
+            <button type="button" id="blo_search" class="btn btn-info">查询</button>
+            <button type="button" id="blo_add" class="btn btn-info" data-toggle="modal" data-target="#myModal_blo">新增
+            </button>
+
+            <!--表格布局-->
+            <table id="blo_table" class="table table-hover table-bordered">
+                <!--head部分-->
+                <thead>
+                <tr>
+                    <th class="blo_ip_address">IP地址</th>
+                    <th class="blo_from_city">所属区域</th>
+                    <th class="blo_block_count">拦截次数</th>
+                    <th class="blo_description">相关说明</th>
+                    <th class="blo_created_at">开始时间</th>
+                    <th class="blo_updated_at">更新时间</th>
+                    <th class="blo_op">操作</th>
+                </tr>
+                </thead>
+                <!--body内的信息显示-->
+                <tbody id="blo_table_info_tby">
+
+                </tbody>
+            </table>
+            <div id="pagination_blo" class="pagination"></div>
+        </div>
+        <!--报告部分内容-->
+        <div class="rep_content content">
+            <h3><span class="bon_pro_name"></span>项目报告</h3>
+            <ul id="rep_btn">
+                <li><input type="button" class="btn btn-warning" id="content_metrics" value="指标"></li>
+                <li><input type="button" class="btn btn-warning" id="content_rep_journal" value="日志"></li>
+                <li><input type="button" class="btn btn-warning" id="content_rep_visit" value="访问"></li>
+            </ul>
+            <div id="rep_include">
+                <div id="metrics" class="report_include">
+                    <h4>指&nbsp;&nbsp;标</h4>
+                    <ul>
+                        <li>浏览次数:<span class="met_view_count"></span></li>
+                        <li>点击次数:<span class="met_click_count"></span></li>
+                        <li>申请次数:<span class="met_apply_count"></span></li>
+                        <li>分享次数:<span class="met_share_count"></span></li>
+                        <li>获得次数:<span class="met_obtain_count"></span></li>
+                        <li>领取次数:<span class="met_drawing_count"></span></li>
+                        <li>评论次数:<span class="met_comment_count"></span></li>
+                        <br/>
+                        <li>开始时间:<span class="met_created_at"></span></li>
+                        <li>更新时间:<span class="met_updated_at"></span></li>
+                    </ul>
+                </div>
+                <div id="rep_jou" class="report_include">
+                    <!--表格布局-->
+                    <table id="rep_jou_table" class="table table-hover table-bordered">
+                        <h4>日&nbsp;&nbsp;志</h4>
+                        <!--head部分-->
+                        <thead>
+                        <tr>
+                            <th class="rep_jou_create_at">创建时间</th>
+                            <th class="rep_jou_wx_name">微信昵称</th>
+                            <th class="rep_jou_wx_avatar">微信头像</th>
+                            <th class="rep_jou_action">活动</th>
+                            <th class="rep_jou_description">描述</th>
+                            <th class="rep_jou_op">详情</th>
+                        </tr>
+                        </thead>
+                        <!--body内的信息显示-->
+                        <tbody id="rep_jou_table_info_tby">
+
+                        </tbody>
+                    </table>
+                    <div id="pagination_rep_jou" class="pagination"></div>
+                </div>
+                <div id="rep_vis" class="report_include">
+                    <!--表格布局-->
+                    <table id="rep_vis_table" class="table table-hover table-bordered">
+                        <h4>访&nbsp;&nbsp;问</h4>
+                        <!--head部分-->
+                        <thead>
+                        <tr>
+                            <th class="rep_vis_created_at">创建时间</th>
+                            <th class="rep_vis_updated_at">更新时间</th>
+                            <th class="rep_vis_ip_address">IP地址</th>
+                            <th class="rep_vis_from_city">所属区域</th>
+                            <th class="rep_vis_visit_count">访问次数</th>
+                            <th class="rep_vis_description">相关说明</th>
+                        </tr>
+                        </thead>
+                        <!--body内的信息显示-->
+                        <tbody id="rep_vis_table_info_tby">
+
+                        </tbody>
+                    </table>
+                    <div id="pagination_vis_jou" class="pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--委托人部分-->
+    <!-- 新增模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        添加委托人
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="cli_type">类型<i>*</i></label>
+                            <select name="客户类型" id="cli_type" class="form-control">
+                                <option value="0">开发商</option>
+                                <option value="1">媒体</option>
+                                <option value="2">中介</option>
+                                <option value="9">其他类型</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_name">名称<i>*</i></label>
+                            <input type="text" class="form-control" id="cli_name"
+                                   placeholder="名称">
+                            <span class="err_cli_name">名称不能为空!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_con_name">联系人姓名<i>*</i></label>
+                            <input type="text" class="form-control" id="cli_con_name"
+                                   placeholder="联系人姓名">
+                            <span class="err_cli_con_name">联系人姓名不能为空!</span>
+                        </div>
+                        <div class="form-group">
+
+                            <label for="cli_con_phone">联系人电话<i>*</i></label>
+                            <input type="text" class="form-control" id="cli_con_phone"
+                                   placeholder="联系人电话">
+                            <span class="err_cli_con_phone">请输入正确的电话号码!</span>
+                        </div>
+                        <div class="form-group">
+
+                            <label for="cli_con_mail">联系人邮箱<i>*</i></label>
+                            <input type="text" class="form-control" id="cli_con_mail"
+                                   placeholder="联系人邮箱">
+                            <span class="err_cli_con_mail">请输入正确的邮箱!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_con_notes">说明</label>
+                            <textarea class="form-control" rows="2" id="cli_con_notes" placeholder="说明"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_con_home_page">主页</label>
+                            <input type="text" class="form-control" id="cli_con_home_page"
+                                   placeholder="主页">
+                        </div>
+                    </form>
+                    <strong>带<i>*</i>   的为必填项</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" name="submit" id="cli_sub" data-dismiss="modal">
+                        新增
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!-- 修改模态框（Modal） -->
+    <div class="modal fade" id="myModal_detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">9
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        详细信息
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="cli_type_detail">类型</label>
+                            <select name="客户类型" id="cli_type_detail" class="form-control" disabled>
+                                <option value="0">开发商</option>
+                                <option value="1">媒体</option>
+                                <option value="2">中介</option>
+                                <option value="9">其他类型</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_name_detail">名称<i>*</i></label>
+                            <input type="text" class="form-control" id="cli_name_detail"
+                                   placeholder="名称">
+                            <span class="err_cli_name_detail">名称不能为空!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_con_name_detail">联系人姓名<i>*</i></label>
+                            <input type="text" class="form-control" id="cli_con_name_detail"
+                                   placeholder="联系人姓名">
+                            <span class="err_cli_con_name_detail">联系人姓名不能为空!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_con_phone_detail">联系人电话<i>*</i></label>
+                            <input type="text" class="form-control" id="cli_con_phone_detail"
+                                   placeholder="联系人电话">
+                            <span class="err_cli_con_phone_detail">请输入正确的电话号码!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_con_mail_detail">联系人邮箱<i>*</i></label>
+                            <input type="text" class="form-control" id="cli_con_mail_detail"
+                                   placeholder="联系人邮箱">
+                            <span class="err_cli_con_mail_detail">请输入正确的邮箱!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_con_notes_detail">说明</label>
+                            <textarea class="form-control" rows="2" id="cli_con_notes_detail" placeholder="说明"></textarea>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="cli_con_home_page_detail">主页</label>
+                            <input type="text" class="form-control" id="cli_con_home_page_detail"
+                                   placeholder="主页">
+                        </div>
+                        <div class="form-group" style="display: none">
+                            <label for="cli_enable_detail">是否继续有效</label>
+                            <select name="" id="cli_enable_detail" class="form-control">
+                                <option value = "true">是</option>
+                                <option value = "false">否</option>
+                            </select>
+                        </div>
+                    </form>
+                    <strong>带<i>*</i>   的为必填项</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="cli_change" data-dismiss="modal">
+                        修改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+<!--项目部分-->
+    <!-- 新增模态框（Modal） -->
+    <div class="modal fade" id="myModal_pro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        添加数据
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="pro_type">类型<i>*</i></label>
+                            <select name="红包类型" id="pro_type" class="form-control">
+                                <option value="0">标准类型</option>
+                                <option value="1">实物类型</option>
+                                <option value="2">抽奖类型</option>
+                                <option value="3">分享有礼</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_name">名称<i>*</i></label>
+                            <input type="text" class="form-control" id="pro_name"
+                                   placeholder="名称">
+                            <span class="err_pro_name">名称不能为空</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_notes">说明</label>
+                            <textarea class="form-control" rows="1" id="pro_notes" placeholder="说明"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_caption">微信标题<i>*</i></label>
+                            <input type="text" class="form-control" id="pro_caption"
+                                   placeholder="微信标题">
+                            <span class="err_pro_caption">微信标题不能为空</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_explication">微信分享内容<i>*</i></label>
+                            <input type="text" class="form-control" id="pro_explication"
+                                   placeholder="微信分享内容">
+                            <span class="err_pro_explication">微信分享内容不能为空</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_relatedUrl">作品路径<i>*</i></label>
+                            <input type="text" class="form-control" id="pro_relatedUrl"
+                                   placeholder="作品路径">
+                            <span class="err_pro_relatedUrl">请填写正确的路径</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_remainAmount">剩余资金(分)<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_remainAmount"
+                                   placeholder="剩余资金">
+                            <span class="err_pro_remainAmount">请输入不小于100的整数</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_totalBonus">红包总量(个)<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_totalBonus"
+                                   placeholder="红包总量">
+                            <span class="err_pro_totalBonus">请输入不小于1的整数</span>
+                        </div>
+                        <div class="form-group" style="display: none">
+                            <label for="pro_shareLimit">分享次数<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_shareLimit"
+                                   placeholder="分享次数">
+                            <span class="err_pro_shareLimit">请输入不小于0的整数</span>
+                        </div>
+                        <div class="form-group" style="display: none">
+                            <label for="pro_shareVtourId">分享全景ID<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_shareVtourId"
+                                   placeholder="分享全景ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_openedAt">开放时间<i>*</i></label>
+                            <input size="16" type="text" id="pro_openedAt" readonly class="form_datetime form-control" placeholder="请选择开放时间">
+                            <span class="err_pro_openedAt">开放时间必须大于当前时间</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_closedAt">关闭时间<i>*</i></label>
+                            <input size="16" type="text" id="pro_closedAt" readonly class="form_datetime form-control" placeholder="请选择关闭时间">
+                            <span class="err_pro_closedAt">关闭时间必须大于起始时间</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_waitingTime">等待时间(秒)</label>
+                            <input type="number" class="form-control" id="pro_waitingTime"
+                                   placeholder="等待时间">
+                            <span class="err_pro_waitingTime">请输入不小于0的整数</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_onlyCity">地域限制</label>
+                            <input type="text" class="form-control" id="pro_onlyCity"
+                                   placeholder="地域限制">
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_onlyWeixin">微信专享<i>*</i></label>
+                            <select name="" id="pro_onlyWeixin" class="form-control">
+                                <option value="true">是</option>
+                                <option value="false">否</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_varianceRatio">方差设置</label>
+                            <input type="number" class="form-control" id="pro_varianceRatio"
+                                   placeholder="值越小红包差越小 默认值为100">
+                            <span class="err_pro_varianceRatio">请输入不小于10的整数且不大于500的整数</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_useCabin">分仓发放<i>*</i></label>
+                            <select name="" id="pro_useCabin" class="form-control">
+                                <option value="false">否</option>
+                                <option value="true">是</option>
+                            </select>
+                        </div>
+                        <div class="form-group cabin" style="display: none;">
+                            <input type="number" style="width: 100px;display: inline-block" class="form-control" id="pro_cabin1_price"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin1_count"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin1">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                        <div class="form-group cabin" style="display: none;">
+                            <input type="number" style="width: 100px;display: inline-block" class="form-control" id="pro_cabin2_price"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin2_count"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin2">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                        <div class="form-group cabin" style="display: none;">
+                            <input type="number" style="width: 100px; display: inline-block" class="form-control" id="pro_cabin3_price"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin3_count"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin3">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                        <div class="form-group cabin" style="display: none;">
+                            <input type="number" style="width: 100px;display: inline-block" class="form-control" id="pro_cabin4_price"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin4_count"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin4">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                        <div class="form-group cabin" style="display: none;">
+                            <input type="number" style="width: 100px; display: inline-block" class="form-control" id="pro_cabin5_price"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin5_count"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin5">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                    </form>
+                    <strong>带<i>*</i>   的为必填项</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="pro_sub" data-dismiss="modal">
+                        新增
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!-- 修改模态框（Modal） -->
+    <div class="modal fade" id="myModal_detail_pro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        修改数据
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline">
+
+                        <div class="form-group">
+                            <label for="pro_name_detail">项目名称<i>*</i></label>
+                            <input type="text" class="form-control" id="pro_name_detail"
+                                   placeholder="名称">
+                            <span class="err_pro_name_detail">请填写项目名称!</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pro_notes_detail">说明</label>
+                            <textarea class="form-control" rows="1" id="pro_notes_detail" placeholder="说明"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_caption_detail">微信分享标题<i>*</i></label>
+                            <input type="text" class="form-control" id="pro_caption_detail"
+                                   placeholder="微信分享标题">
+                            <span class="err_pro_caption_detail">微信分享标题不能为空!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_explication_detail">微信分享内容<i>*</i></label>
+                            <input type="text" class="form-control" id="pro_explication_detail"
+                                   placeholder="微信分享内容">
+                            <span class="err_pro_explication_detail">微信分享内容不能为空!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_relatedUrl_detail">作品路径<i>*</i></label>
+                            <input type="text" class="form-control" id="pro_relatedUrl_detail"
+                                   placeholder="作品路径">
+                            <span class="err_pro_relatedUrl_detail">作品路径不能为空!</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_masterUrl_detail">主页面</label>
+                            <input type="text" class="form-control" id="pro_masterUrl_detail"
+                                   placeholder="主页面" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_detailUrl_detail">活动详情</label>
+                            <input type="text" class="form-control" id="pro_detailUrl_detail"
+                                   placeholder="活动详情" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_thanksUrl_detail">感谢页面</label>
+                            <input type="text" class="form-control" id="pro_thanksUrl_detail"
+                                   placeholder="感谢页面" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_successUrl_detail">成功页面</label>
+                            <input type="text" class="form-control" id="pro_successUrl_detail"
+                                   placeholder="成功页面" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_failureUrl_detail">失败页面</label>
+                            <input type="text" class="form-control" id="pro_failureUrl_detail"
+                                   placeholder="失败页面" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_waitingUrl_detail">等待页面</label>
+                            <input type="text" class="form-control" id="pro_waitingUrl_detail"
+                                   placeholder="等待页面" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_finishedUrl_detail">结束页面</label>
+                            <input type="text" class="form-control" id="pro_finishedUrl_detail"
+                                   placeholder="结束页面" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_totalBonus_detail">红包总量(个)<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_totalBonus_detail"
+                                   placeholder="红包总量">
+                            <span class="err_pro_totalBonus_detail">请输入不小于0的整数</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_remainBonus_detail">红包剩余(个)<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_remainBonus_detail"
+                                   placeholder="红包剩余">
+                            <span class="err_pro_remainBonus_detail">请输入不小于0的整数</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_remainAmount_detail">剩余资金(分)<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_remainAmount_detail"
+                                   placeholder="资金限制">
+                            <span class="err_pro_remainAmount_detail">请输入不小于0的整数</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_payoutAmount_detail">发出金额(分)<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_payoutAmount_detail"
+                                   placeholder="发出金额" readonly>
+                        </div>
+                        <div class="form-group" style="display: none">
+                            <label for="pro_shareLimit_detail">分享次数<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_shareLimit_detail"
+                                   placeholder="分享次数">
+                            <span class="err_pro_shareLimit_detail">请输入不小于0的整数</span>
+                        </div>
+                        <div class="form-group" style="display: none">
+                            <label for="pro_shareVtourId_detail">全景ID<i>*</i></label>
+                            <input type="number" class="form-control" id="pro_shareVtourId_detail"
+                                   placeholder="全景ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_openedAt_detail">开放时间<i>*</i></label>
+                            <input size="16" type="text" id="pro_openedAt_detail" readonly class="form_datetime form-control" placeholder="请选择开放时间">
+                            <span class="err_pro_openedAt_detail">开放时间必须大于当前时间</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_closedAt_detail">关闭时间<i>*</i></label>
+                            <input size="16" type="text" id="pro_closedAt_detail" readonly class="form_datetime form-control" placeholder="请选择关闭时间">
+                            <span class="err_pro_closedAt_detail">关闭时间必须大于起始时间</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_waitingTime_detail">等待时间(秒)</label>
+                            <input type="number" class="form-control" id="pro_waitingTime_detail"
+                                   placeholder="等待时间">
+                            <span class="err_pro_waitingTime_detail">请输入不小于0的整数</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_onlyCity_detail">地域限制</label>
+                            <input type="text" class="form-control" id="pro_onlyCity_detail"
+                                   placeholder="地域限制">
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_onlyWeixin_detail">微信专享</label>
+                            <select name="" id="pro_onlyWeixin_detail" class="form-control">
+                                <option value="true">是</option>
+                                <option value="false">否</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_enable_detail">是否继续有效</label>
+                            <select name="是否继续有效" id="pro_enable_detail" class="form-control">
+                                <option value="true">是</option>
+                                <option value="false">否</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_varianceRatio_detail">方差设置</label>
+                            <input type="number" class="form-control" id="pro_varianceRatio_detail"
+                                   placeholder="值越小红包差越小 默认值为100">
+                            <span class="err_pro_varianceRatio_detail">请输入不小于10的整数且不大于500的整数</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pro_useCabin_detail">分仓发放<i>*</i></label>
+                            <select name="" id="pro_useCabin_detail" class="form-control">
+                                <option value="false">否</option>
+                                <option value="true">是</option>
+                            </select>
+                        </div>
+                        <div class="form-group cabin_detail" style="display: none;">
+                            <input type="number" style="width: 100px;display: inline-block" class="form-control" id="pro_cabin1_price_detail"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin1_count_detail"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin1_detail">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                        <div class="form-group cabin_detail" style="display: none;">
+                            <input type="number" style="width: 100px;display: inline-block" class="form-control" id="pro_cabin2_price_detail"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin2_count_detail"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin2_detail">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                        <div class="form-group cabin_detail" style="display: none;">
+                            <input type="number" style="width: 100px; display: inline-block" class="form-control" id="pro_cabin3_price_detail"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin3_count_detail"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin3_detail">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                        <div class="form-group cabin_detail" style="display: none;">
+                            <input type="number" style="width: 100px;display: inline-block" class="form-control" id="pro_cabin4_price_detail"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin4_count_detail"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin4_detail">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                        <div class="form-group cabin_detail" style="display: none;">
+                            <input type="number" style="width: 100px; display: inline-block" class="form-control" id="pro_cabin5_price_detail"
+                                   placeholder="金额(分)">
+                            <input type="number" class="form-control" id="pro_cabin5_count_detail"
+                                   placeholder="个数(个)">
+                            <span class="err_pro_cabin5_detail">金额需大于100分且个数不小于1或者都不填</span>
+                        </div>
+                        <div class="form-group" style="width: auto">
+                            <label for="pro_getBonus_detail">领取链接</label>
+                            <p id="pro_getBonus_detail"></p>
+                        </div>
+                    </form>
+                    <strong>带<i>*</i>   的为必填项</strong>
+                    <div style="margin-top: 30px;">
+                        <div id="pro_qrcode" style="width:200px;height:200px;margin: 0 auto;text-align: center;">
+                        </div>
+                        <span style="display: block; text-align:center;font-size:14px;margin-top:5px;">扫码获取地址</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-primary" id="pro_change" data-dismiss="modal">
+                        修改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+<!--红包部分-->
+    <!--红包详情模态框-->
+    <div class="modal fade" id="myModal_detail_bon" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        红包详情
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="bon_name">名称</label>
+                            <input type="text" class="form-control" id="bon_name"
+                                   placeholder="名称" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_notes">说明</label>
+                            <input type="text" class="form-control" id="bon_notes"
+                                   placeholder="说明" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_wx_name">微信用户名</label>
+                            <input type="text" class="form-control" id="bon_wx_name"
+                                   placeholder="微信用户名" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_mobile">电话号码</label>
+                            <input type="text" class="form-control" id="bon_mobile"
+                                   placeholder="电话号码" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_wx_avatar">用户头像</label>
+                            <div class="form-control" id="bon_wx_avatar"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_create_at">创建时间</label>
+                            <input type="text" class="form-control" id="bon_create_at"
+                                   placeholder="创建时间" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_caption">标题(微信)</label>
+                            <input type="text" class="form-control" id="bon_caption"
+                                   placeholder="标题" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_explication">说明(微信)</label>
+                            <input type="text" class="form-control" id="bon_explication"
+                                   placeholder="标题" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_related_url">URL(微信)</label>
+                            <input type="text" class="form-control" id="bon_related_url"
+                                   placeholder="URL(微信)" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_cash">兑奖额</label>
+                            <input type="text" class="form-control" id="bon_cash"
+                                   placeholder="兑奖额" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_lucky_code">兑奖码</label>
+                            <input type="text" class="form-control" id="bon_lucky_code"
+                                   placeholder="兑奖码" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_lottery_id">抽奖码</label>
+                            <input type="text" class="form-control" id="bon_lottery_id"
+                                   placeholder="抽奖码" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_from_city">来源城市</label>
+                            <input type="text" class="form-control" id="bon_from_city"
+                                   placeholder="来源城市" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bon_enable">是否有效</label>
+                            <input type="text" class="form-control" id="bon_enable"
+                                   placeholder="抽奖码" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="display: none;">
+                    <button type="submit" class="btn btn-primary" id="bon_sub" data-dismiss="modal">
+                        新增
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+<!--日志部分-->
+    <!--日志详情模态框-->
+    <div class="modal fade" id="myModal_detail_jou" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        日志数据显示
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="jou_wx_name">微信昵称</label>
+                            <input type="text" class="form-control" id="jou_wx_name"
+                                   placeholder="微信昵称" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_wx_avatar">微信头像</label>
+                            <div class="form-control" id="jou_wx_avatar"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_email">邮箱地址</label>
+                            <input type="text" class="form-control" id="jou_email"
+                                   placeholder="邮箱地址" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_mobile">电话号码</label>
+                            <input type="text" class="form-control" id="jou_mobile"
+                                   placeholder="电话号码" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_bonus_cash">兑奖额</label>
+                            <input type="text" class="form-control" id="jou_bonus_cash"
+                                   placeholder="兑奖额" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_lucky_code">兑奖码</label>
+                            <input type="text" class="form-control" id="jou_lucky_code"
+                                   placeholder="兑奖码" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_lottery_id">抽奖码</label>
+                            <input type="text" class="form-control" id="jou_lottery_id"
+                                   placeholder="抽奖码" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_from_city">来源城市</label>
+                            <input type="text" class="form-control" id="jou_from_city"
+                                   placeholder="来源城市" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_action">活动</label>
+                            <input type="text" class="form-control" id="jou_action"
+                                   placeholder="活动" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_description">活动描述</label>
+                            <textarea class="form-control" rows="2" cols="2" id="jou_description" placeholder="说明"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="jou_created_at">时间</label>
+                            <input type="text" class="form-control" id="jou_created_at"
+                                   placeholder="时间" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="display: none;">
+                    <button type="submit" class="btn btn-primary" id="jou_change" data-dismiss="modal">
+                        修改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+<!--报告部分-->
+    <!--报告内日志部分模态框-->
+    <div class="modal fade" id="myModal_detail_rep_jou" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        日志数据显示
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="rep_jou_wx_name">微信昵称</label>
+                            <input type="text" class="form-control" id="rep_jou_wx_name"
+                                   placeholder="微信昵称" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_wx_avatar">微信头像</label>
+                            <div class="form-control" id="rep_jou_wx_avatar"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_email">邮箱地址</label>
+                            <input type="text" class="form-control" id="rep_jou_email"
+                                   placeholder="邮箱地址" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_mobile">电话号码</label>
+                            <input type="text" class="form-control" id="rep_jou_mobile"
+                                   placeholder="电话号码" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_bonus_cash">兑奖额</label>
+                            <input type="text" class="form-control" id="rep_jou_bonus_cash"
+                                   placeholder="兑奖额" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_lucky_code">兑奖码</label>
+                            <input type="text" class="form-control" id="rep_jou_lucky_code"
+                                   placeholder="兑奖码" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_lottery_id">抽奖码</label>
+                            <input type="text" class="form-control" id="rep_jou_lottery_id"
+                                   placeholder="抽奖码" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_from_city">来源城市</label>
+                            <input type="text" class="form-control" id="rep_jou_from_city"
+                                   placeholder="来源城市" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_action">活动</label>
+                            <input type="text" class="form-control" id="rep_jou_action"
+                                   placeholder="活动" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_description">活动描述</label>
+                            <textarea class="form-control" rows="2" cols="2" id="rep_jou_description" placeholder="说明"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="rep_jou_created_at">时间</label>
+                            <input type="text" class="form-control" id="rep_jou_created_at"
+                                   placeholder="时间" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="display: none;">
+                    <button type="submit" class="btn btn-primary" id="rep_jou_change" data-dismiss="modal">
+                        修改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+<!--拦截部分-->
+    <!--新增模态框-->
+    <div class="modal fade" id="myModal_blo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        新增黑名单
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="blo_ipAddress">IP地址<i>*</i></label>
+                            <input type="text" class="form-control" id="blo_ipAddress"
+                                   placeholder="IP地址">
+                            <span class="err_blo_ip_address">请输入正确的IP地址</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="blo_description">相关说明</label>
+                            <textarea class="form-control" rows="2" id="blo_description" placeholder="相关说明"></textarea>
+                        </div>
+                        <strong>带<i>*</i>   的为必填项</strong>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" name="submit" id="blo_sub" data-dismiss="modal">
+                        新增
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+</body>
+</html>

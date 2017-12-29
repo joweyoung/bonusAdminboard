@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package com.weiwuu.bonus.meta;
+
+
+option java_multiple_files = true;
+option java_generate_equals_and_hash = true;
+
+option java_package = "com.weiwuu.bonus.meta";
+option java_outer_classname = "JournalProto";
+
+option csharp_namespace = "Weiwuu.Bonus.Meta.KnownTypes";
+
+option objc_class_prefix = "WBM";
+
+// 日志定义
+message Journal {
+    // ID
+    uint64 id = 1;
+
+    // 委托人 ID
+    uint64 client_id = 2;
+    // 项目 ID
+    uint64 project_id = 3;
+    // 获得人 ID
+    uint64 winner_id = 4;
+
+    // 微信相关信息
+    string wx_name = 5;
+    string wx_avatar = 6;
+    string wx_open_id = 7;
+    string wx_union_id = 8;
+
+    // 邮件地址
+    string email = 9;
+    // 电话号码
+    string mobile = 10;
+
+    // 兑奖额, ProjectType.STANDARD_BONUS, 标准类型, 记录发放金额
+    uint32 bonus_cash = 11; // 以 (分) 标识的货币金额
+
+    // 兑奖码, ProjectType.PHYSICAL_BONUS, 实物类型, 记录兑奖号码
+    string lucky_code = 12; // 999999-999999 标识的 2 段整数
+
+    // 抽奖码, ProjectType.LOTTERY_BONUS, 抽奖 ID, 此 ID 用于抽奖
+    string lottery_id = 13; // 9999999999 表示的长整数
+
+    // 来源城市: 领取红包的 IP 地址对应的城市名
+    string from_city = 14;
+    // IP 地址: 领取红包的 IP 地址, 此地址应包含代理地址, 来完全表达来源
+    string ip_address = 15;
+    // Browser: 领取红包时, 使用的浏览器
+    string browser_by = 16;
+
+    // 活动描述
+    string action = 23;
+    // 活动描述
+    string description = 24;
+
+    // 时间: 用长整数表达
+    uint64 created_at = 25;
+}
+
+// 日志清单
+message JournalList {
+    repeated Journal journal = 1;
+
+    // 当前页的行数
+    uint32 line_count = 2;
+    // 总数据的页数
+    uint32 page_count = 3;
+}
+
+// 1. 首先, 指定语法: syntax = "proto3";
+// 2. Messages 的命名使用驼峰命名法, 字段的命名用【小写字母 + 下划线】
+// 3. 经常被使用的字段, 考虑放置在 1-15 这个范围内, 代码时有优化
+// 4. repeated 通常会被解析为一个 List, 表达可以重复出现 0 ~ N
+// 5. reserved 通常放置在将被废弃的字段前, 以提供向后兼容性
+// 6. 数据类型: double, float, bool, string, bytes
+// 7. sint32, sint64 比原始的 int32, int64 有优化, 允许负值
+// 8. uint32, uint64 使用在正整数的情况下
+// 9. fixed32, fixed64 使用在数值总是很大的情况下
+
+// string 的默认值是 Empty
+// bool   的默认值是 false
+// bytes  的默认值是 Empty Bytes
+// 数值型  的默认值是 0
+// 枚举型  的默认值是第一个元素, 其索引必须是 0
+// repeated 类型的默认值是一个 Empty List
+
+// 如果不确定使用哪个数据类型, 或者你不想定义它, 使用 Any
+// 1. 引入 import "google/protobuf/any.proto";
+// 2. 定义 google.protobuf.Any details = 2;
+// 3. Any 在代码时, 对应的数据类型必须可序列化, 然后被存储为 bytes
+
+// 如果需要使用更便捷的 K/V 对, 可以考虑使用 Map, 用法如下:
+//     map<key_type, value_type> map_field = N;
+// 注意, 在实际代码时, 将按照 key_value 进行排序

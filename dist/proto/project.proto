@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package com.weiwuu.bonus.meta;
+
+
+option java_multiple_files = true;
+option java_generate_equals_and_hash = true;
+
+option java_package = "com.weiwuu.bonus.meta";
+option java_outer_classname = "ProjectProto";
+
+option csharp_namespace = "Weiwuu.Bonus.Meta.KnownTypes";
+
+option objc_class_prefix = "WBM";
+
+// 项目类型
+enum ProjectType {
+    STANDARD_BONUS = 0; // 标准类型, 通过微信进发放
+    PHYSICAL_BONUS = 1; // 实物类型, 获取领取码, 在指定地点领取
+    LOTTERY_BONUS = 2; // 抽奖类型, 获取抽奖号, 待公布后兑换
+    SHARING_BONUS = 3; // 分享有礼
+}
+
+// 项目定义
+message Project {
+    // ID
+    uint64 id = 1;
+    // 类型
+    ProjectType type = 2;
+
+    // 代码
+    string code = 3;
+    // 名称
+    string name = 4;
+    // 说明
+    string notes = 5;
+
+    // 委托人 ID
+    uint64 client_id = 6;
+
+    // 主页面: 用户在此页面中可以点击参与活动的触发点
+    string master_url = 7;
+    // 活动详情: 主要用户对活动规则的解释, 以及相关的说明
+    string detail_url = 8;
+
+    // 系统判断为重复提交: 感谢用户参与页面
+    string thanks_url = 9;
+
+    // 进入排队后: 成功页面, 通常应该是可以完成领取动作的
+    string success_url = 10;
+    // 无法进入排队: 失败页面, 通知用户发生了异常
+    string failure_url = 11;
+
+    // 活动开始前: 等待页面
+    string waiting_url = 12;
+    // 活动结束后: 结束页面
+    string finished_url = 13;
+
+    // 标题: 将在微信通知时, 用于微信消息的标题
+    string caption = 14;
+    // 说明: 将在微信通知时, 用于微信消息的说明
+    string explication = 15;
+    // 关联 URL: 用于微信消息点击时, 跳转的 URL
+    string related_url = 16;
+
+    // 红包总量 (个): 指定预期分割的份数, 项目最终逼近或抵达这个限定值
+    uint32 total_bonus = 17;
+    // 剩余数量 (个): 剩余未发出的红包份数
+    uint32 remain_bonus = 18;
+
+    // 剩余资金 (分): 相当于一个项目可以使用的资金总量, 每一个红包都来扣减它, 直至为 0
+    uint32 remain_amount = 19;
+    // 发出金额 (分): 在后端进统计, 前端不能调用它
+    uint32 payout_amount = 23;
+    // 方差设置: 控制金额离散程度, 通常在 10 - 200 之间, 默认为 100
+    uint32 variance_ratio = 43;
+
+    // 开放时间: 红包可以被申请的时间点
+    uint64 opened_at = 20;
+    // 关闭时间: 活动被关闭的时间点
+    uint64 closed_at = 21;
+
+    // 提交等待时间 (秒): 用户获取红包时, 页面提交需要暂停的时间 (秒)
+    uint32 waiting_time = 22;
+
+    // 分享次数限制: 仅用于 分享有礼 这个模式下的控制
+    uint32 share_limit = 24;
+    // 被分享的全景: 后台通过 VTour ID 倒查获得 Project ID
+    uint64 share_vtour_id = 25;
+
+    // 限制地域: 指定一个城市名, 比如说 昆明, 只允许特定区域的用户参与
+    string only_city = 26;
+
+    // 微信专享: 如果为 true, 将只允许来自微信浏览器的用户参与
+    bool only_weixin = 27;
+
+    // 是否有效: 如果为 false, 则此项目为关闭状态, 不可以被使用
+    bool enabled = 28;
+
+    // 创建时间: 用长整数表达
+    uint64 created_at = 29;
+    // 更新时间: 用长整数表达
+    uint64 updated_at = 30;
+
+    // 分仓发放 -------------------------------------------------------------------
+        bool use_cabin = 31;
+
+    // 仓位清单
+    repeated uint32 cabin = 32;
+
+    // 仓位 1
+    uint32 cabin1_count = 33;
+    uint32 cabin1_price = 34;
+
+    // 仓位 2
+    uint32 cabin2_count = 35;
+    uint32 cabin2_price = 36;
+
+    // 仓位 3
+    uint32 cabin3_count = 37;
+    uint32 cabin3_price = 38;
+
+    // 仓位 4
+    uint32 cabin4_count = 39;
+    uint32 cabin4_price = 40;
+
+    // 仓位 5
+    uint32 cabin5_count = 41;
+    uint32 cabin5_price = 42;
+}
+
+// 视角清单
+message ProjectList {
+    repeated Project project = 1;
+
+    // 当前页的行数
+    uint32 line_count = 2;
+    // 总数据的页数
+    uint32 page_count = 3;
+}
+
+// 1. 首先, 指定语法: syntax = "proto3";
+// 2. Messages 的命名使用驼峰命名法, 字段的命名用【小写字母 + 下划线】
+// 3. 经常被使用的字段, 考虑放置在 1-15 这个范围内, 代码时有优化
+// 4. repeated 通常会被解析为一个 List, 表达可以重复出现 0 ~ N
+// 5. reserved 通常放置在将被废弃的字段前, 以提供向后兼容性
+// 6. 数据类型: double, float, bool, string, bytes
+// 7. sint32, sint64 比原始的 int32, int64 有优化, 允许负值
+// 8. uint32, uint64 使用在正整数的情况下
+// 9. fixed32, fixed64 使用在数值总是很大的情况下
+
+// string 的默认值是 Empty
+// bool   的默认值是 false
+// bytes  的默认值是 Empty Bytes
+// 数值型  的默认值是 0
+// 枚举型  的默认值是第一个元素, 其索引必须是 0
+// repeated 类型的默认值是一个 Empty List
+
+// 如果不确定使用哪个数据类型, 或者你不想定义它, 使用 Any
+// 1. 引入 import "google/protobuf/any.proto";
+// 2. 定义 google.protobuf.Any details = 2;
+// 3. Any 在代码时, 对应的数据类型必须可序列化, 然后被存储为 bytes
+
+// 如果需要使用更便捷的 K/V 对, 可以考虑使用 Map, 用法如下:
+//     map<key_type, value_type> map_field = N;
+// 注意, 在实际代码时, 将按照 key_value 进行排序

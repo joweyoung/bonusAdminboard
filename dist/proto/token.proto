@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package com.weiwuu.bonus.meta;
+
+
+option java_multiple_files = true;
+option java_generate_equals_and_hash = true;
+
+option java_package = "com.weiwuu.bonus.meta";
+option java_outer_classname = "TokenProto";
+
+option csharp_namespace = "Weiwuu.Bonus.Meta.KnownTypes";
+
+option objc_class_prefix = "WBM";
+
+// 申请
+message Token {
+    // Client Key
+    string client_key = 1;
+
+    // Server Key
+    string server_key = 2;
+
+    // 邮件地址
+    string email = 3;
+    // 手机号码
+    string mobile = 4;
+
+    // 微信信息
+    string wx_name = 5;
+    string wx_avatar = 6;
+    string wx_open_id = 7;
+    string wx_union_id = 9;
+
+    // 浏览器信息
+    string user_agent = 10;
+
+    // 安全问题
+    string use_answer = 13;
+
+    // 过期时间
+    uint64 expired_at = 14;
+
+    // 创建时间: 用长整数表达
+    uint64 created_at = 15;
+}
